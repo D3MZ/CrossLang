@@ -50,8 +50,6 @@ It’s likely that majority of the score will be from translating back to the or
 1. Rewards a computable proxy for human readability. Since an AI must be able to read and work with its own generations.
 2. Rewards an AI’s ability to work with broken and incomplete code. Since even failed transcriptions must be attempted to go back into original code that we know that works. This allows even repositories that are fundamentally incompatible to be translated to still be worth something because we know at very minimum, there’s code that exists that works.
 
-Upon running, if SOTA is unable to score then maybe we’ll allow partital scoring on every passed test?
-`Score += Repo Stars × % Test Coverage × 1/number of tests.`
 ---
 
 ## **Key Features**  
@@ -111,7 +109,8 @@ Upon running, if SOTA is unable to score then maybe we’ll allow partital scori
 - **Auto-PR Translated Code**: Submit translations as `{AI Vendor}/Translated/{Lang}/{Repo}` via GitHub PRs.  
 - **Test Runtime Tracking**: Compare execution times of original vs. translated tests (e.g., Rust ↔ Python speed tradeoffs).  
 - **Partial Updates**: Sync translated repos with upstream changes (e.g., new features in the original repository).  
-- **Language Benchmarking**
+- **Language runtime benchmarking**
+- **Maybe partital scoring?** `Score += Repo Stars × % Test Coverage × 1/number of tests.`
 
 ---
 
