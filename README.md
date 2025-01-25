@@ -29,8 +29,8 @@ Unlike spoken languages, transcribing software requires reasoning to handle case
      - Run the translated tests.  
        - Increment score by `Repo Stars × % Test Coverage` if all the tests pass.
 3. **Back-Translate to Original Language**:  
-   - For *all successful translations* (from Step 1):  
-     - Transcribe the modified code (including failed tests) back to the original language.  
+   - For both successful and failed translations
+     - Transcribe the modified code back to the original language.  
      - Run the original repository’s tests on the back-translated code.  
        - Increment score by `Repo Stars × % Test Coverage` if all the tests pass.
 4. **Publish to leaderboard landing page**
@@ -41,34 +41,33 @@ Unlike spoken languages, transcribing software requires reasoning to handle case
 ### **Formula**  
 Score += Repo Stars × % Test Coverage × Transcription Success (Front or Back)
 
-### **Key Insights**  
-**Prioritization**
-More popular repositories are priortized. An educated guess that there’s a higher probability that popular codebases are more desired in other languages, complete, and have better testing.
+### **Key Points**  
+**Popular repositories are priortized**. Popular codebases are mostly more desired in other languages, complete, and have better testing.
 
 **Back-Translation** 
-It’s likely that majority of the score will be from translating back to the original language. There are 2 reasons for this design decision: 
-1. Rewards a computable proxy for human readability. Since an AI must be able to read and work with its own generations.
-2. Rewards an AI’s ability to work with broken and incomplete code. Since even failed transcriptions must be attempted to go back into original code that we know that works. This allows even repositories that are fundamentally incompatible to be translated to still be worth something because we know at very minimum, there’s code that exists that works.
+It’s likely that majority of the score will be from translating back to the original language due to some translations would not be possible do to unavoidable aspects of the target language. This rewards: 
+1. A computable proxy for human readability. Since an AI must be able to read and work with its own generations.
+2. An AI’s ability to work with broken and incomplete code. Since even failed transcriptions must be attempted to go back into original code. 
 
 ---
 
 ## **Key Features**  
 ### 1. **Anti-Gaming Design**  
-- **Live Repositories**: Pulls from GitHub dynamically, avoiding static datasets.  
+- **Live Repositories**: Pulls from GitHub on every run which avoids static datasets.  
 - **Large evaluation space:** +500 Languages * many repositories * 2 translation directions
 - **Full-Stack Validation**: Requires end-to-end functionality (code + tests) in both directions.  
 
 ### 2. **Real-World Reasoning**  
-   Tests AI’s ability to:  
 - Replace incompatible dependencies (e.g., Python’s `subprocess` → JavaScript’s `child_process`).  
 - Handle language-specific quirks (e.g., Python indentation → Rust’s `{}` syntax).  
 - Debug failed tests during back-translation.  
 
-### 3. Helps develop better AI
+### 3. Helps AI
 - Back translating to orignal code is a trainable feature to improve existing LLMs.
-
-### 4. Interperable and future-proof.
 - Unbounded scoring allows easily comparing LLMs over the years.
+
+### 4. Helps developers
+* Developers can use **any library in their preferred language** (e.g., Python’s NumPy in Rust).  
 
 ---
 
@@ -80,19 +79,6 @@ It’s likely that majority of the score will be from translating back to the or
 | 3    | Translate `Python/requests` → `Julia/requests` | ❌ Some Julia tests fail → **0 points**                       | **18000**   |
 | 4    | Back-translate `Julia/requests` → `Python`     | ✅ Original Python tests pass → **+9,000 points**             | **27000**   |
 
----
-
-## **Why This Matters**  
-### **1. Real-World Impact**  
-- Developers can use **any library in their preferred language** (e.g., Python’s NumPy in Rust).  
-- Breaks ecosystem silos without waiting for human rewrites.  
-
-### **2. Human-Like Evaluation**  
-- Mimics how developers verify ported code, ensuring translations are functional and maintainable.  
-- Tests AI’s ability to debug and reason about edge cases.  
-
-### **3. Continuous Improvement**  
-- The benchmark evolves as new repositories are added, ensuring it remains challenging and relevant.  
 
 ---
 
@@ -107,10 +93,10 @@ It’s likely that majority of the score will be from translating back to the or
 
 ## **Future Roadmap**  
 - **Auto-PR Translated Code**: Submit translations as `{AI Vendor}/Translated/{Lang}/{Repo}` via GitHub PRs.  
+  - Port to respective package managers?
+  - Partial updates?
 - **Test Runtime Tracking**: Compare execution times of original vs. translated tests (e.g., Rust ↔ Python speed tradeoffs).  
-- **Partial Updates**: Sync translated repos with upstream changes (e.g., new features in the original repository).  
 - **Language runtime benchmarking**
-- **Maybe partital scoring?** `Score += Repo Stars × % Test Coverage × 1/number of tests.`
 
 ---
 
